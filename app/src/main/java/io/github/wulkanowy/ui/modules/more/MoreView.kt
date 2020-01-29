@@ -1,6 +1,7 @@
 package io.github.wulkanowy.ui.modules.more
 
 import android.graphics.drawable.Drawable
+import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import io.github.wulkanowy.ui.base.BaseView
 
 interface MoreView : BaseView {
@@ -23,7 +24,7 @@ interface MoreView : BaseView {
 
     fun initView()
 
-    fun updateData(data: List<MoreItem>)
+    fun updateData(data: List<AbstractFlexibleItem<*>>)
 
     fun openSettingsView()
 

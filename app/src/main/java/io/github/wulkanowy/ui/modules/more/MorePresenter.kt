@@ -1,10 +1,12 @@
 package io.github.wulkanowy.ui.modules.more
 
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
+import io.github.wulkanowy.data.db.entities.Student
 import io.github.wulkanowy.data.repositories.student.StudentRepository
 import io.github.wulkanowy.ui.base.BasePresenter
 import io.github.wulkanowy.ui.base.ErrorHandler
 import io.github.wulkanowy.utils.SchedulersProvider
+import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -44,17 +46,31 @@ class MorePresenter @Inject constructor(
     }
 
     private fun loadData() {
+        disposable.add(
+            studentRepository.getCurrentStudent(false)
+                .subscribeOn(schedulers.backgroundThread)
+                .observeOn(schedulers.mainThread)
+                .subscribeBy(
+                    onError = errorHandler::dispatch,
+                    onSuccess = ::createAndUpdateList
+                )
+        )
+    }
+
+    private fun createAndUpdateList(student: Student) {
         Timber.i("Load items for more view")
         view?.run {
-            updateData(listOfNotNull(
-                messagesRes?.let { MoreItem(it.first, it.second) },
-                homeworkRes?.let { MoreItem(it.first, it.second) },
-                noteRes?.let { MoreItem(it.first, it.second) },
-                luckyNumberRes?.let { MoreItem(it.first, it.second) },
-                mobileDevicesRes?.let { MoreItem(it.first, it.second) },
-                schoolAndTeachersRes?.let { MoreItem(it.first, it.second) },
-                settingsRes?.let { MoreItem(it.first, it.second) },
-                aboutRes?.let { MoreItem(it.first, it.second) })
+            updateData(
+                listOfNotNull(
+                    MoreAccountItem(student),
+                    messagesRes?.let { MoreItem(it.first, it.second) },
+                    homeworkRes?.let { MoreItem(it.first, it.second) },
+                    noteRes?.let { MoreItem(it.first, it.second) },
+                    luckyNumberRes?.let { MoreItem(it.first, it.second) },
+                    mobileDevicesRes?.let { MoreItem(it.first, it.second) },
+                    schoolAndTeachersRes?.let { MoreItem(it.first, it.second) },
+                    settingsRes?.let { MoreItem(it.first, it.second) },
+                    aboutRes?.let { MoreItem(it.first, it.second) })
             )
         }
     }

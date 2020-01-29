@@ -86,7 +86,7 @@ class MoreFragment : BaseFragment(), MoreView, MainView.TitledView, MainView.Mai
         if (::presenter.isInitialized) presenter.onViewReselected()
     }
 
-    override fun updateData(data: List<MoreItem>) {
+    override fun updateData(data: List<AbstractFlexibleItem<*>>) {
         moreAdapter.updateDataSet(data)
     }
 
