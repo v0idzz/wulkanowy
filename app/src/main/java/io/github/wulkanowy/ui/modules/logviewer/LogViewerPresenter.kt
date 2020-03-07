@@ -1,4 +1,4 @@
-package io.github.wulkanowy.ui.modules.about.logviewer
+package io.github.wulkanowy.ui.modules.logviewer
 
 import io.github.wulkanowy.data.repositories.logger.LoggerRepository
 import io.github.wulkanowy.data.repositories.student.StudentRepository

@@ -1,4 +1,4 @@
-package io.github.wulkanowy.ui.modules.about.contributor
+package io.github.wulkanowy.ui.modules.contributor
 
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import io.github.wulkanowy.data.repositories.appcreator.AppCreatorRepository

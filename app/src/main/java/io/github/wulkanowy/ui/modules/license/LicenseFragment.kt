@@ -1,4 +1,4 @@
-package io.github.wulkanowy.ui.modules.about.license
+package io.github.wulkanowy.ui.modules.license
 
 import android.os.Bundle
 import android.view.LayoutInflater

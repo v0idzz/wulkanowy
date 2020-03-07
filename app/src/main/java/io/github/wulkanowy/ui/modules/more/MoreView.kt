@@ -18,17 +18,9 @@ interface MoreView : BaseView {
 
     val schoolAndTeachersRes: Pair<String, Drawable?>?
 
-    val settingsRes: Pair<String, Drawable?>?
-
-    val aboutRes: Pair<String, Drawable?>?
-
     fun initView()
 
     fun updateData(data: List<AbstractFlexibleItem<*>>)
-
-    fun openSettingsView()
-
-    fun openAboutView()
 
     fun popView(depth: Int)
 

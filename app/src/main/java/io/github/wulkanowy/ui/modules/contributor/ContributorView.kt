@@ -1,4 +1,4 @@
-package io.github.wulkanowy.ui.modules.about.contributor
+package io.github.wulkanowy.ui.modules.contributor
 
 import io.github.wulkanowy.ui.base.BaseView
 

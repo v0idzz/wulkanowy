@@ -1,4 +1,4 @@
-package io.github.wulkanowy.ui.modules.about.license
+package io.github.wulkanowy.ui.modules.license
 
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import io.github.wulkanowy.data.repositories.student.StudentRepository

@@ -16,9 +16,9 @@ import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import io.github.wulkanowy.R
 import io.github.wulkanowy.ui.base.BaseFragment
-import io.github.wulkanowy.ui.modules.about.contributor.ContributorFragment
-import io.github.wulkanowy.ui.modules.about.license.LicenseFragment
-import io.github.wulkanowy.ui.modules.about.logviewer.LogViewerFragment
+import io.github.wulkanowy.ui.modules.contributor.ContributorFragment
+import io.github.wulkanowy.ui.modules.license.LicenseFragment
+import io.github.wulkanowy.ui.modules.logviewer.LogViewerFragment
 import io.github.wulkanowy.ui.modules.main.MainActivity
 import io.github.wulkanowy.ui.modules.main.MainView
 import io.github.wulkanowy.utils.AppInfo

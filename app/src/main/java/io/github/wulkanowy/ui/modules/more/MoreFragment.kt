@@ -10,7 +10,6 @@ import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import io.github.wulkanowy.R
 import io.github.wulkanowy.ui.base.BaseFragment
-import io.github.wulkanowy.ui.modules.about.AboutFragment
 import io.github.wulkanowy.ui.modules.homework.HomeworkFragment
 import io.github.wulkanowy.ui.modules.luckynumber.LuckyNumberFragment
 import io.github.wulkanowy.ui.modules.main.MainActivity
@@ -19,7 +18,6 @@ import io.github.wulkanowy.ui.modules.message.MessageFragment
 import io.github.wulkanowy.ui.modules.mobiledevice.MobileDeviceFragment
 import io.github.wulkanowy.ui.modules.note.NoteFragment
 import io.github.wulkanowy.ui.modules.schoolandteachers.SchoolAndTeachersFragment
-import io.github.wulkanowy.ui.modules.settings.SettingsFragment
 import io.github.wulkanowy.utils.getCompatDrawable
 import io.github.wulkanowy.utils.setOnItemClickListener
 import kotlinx.android.synthetic.main.fragment_more.*
@@ -58,15 +56,11 @@ class MoreFragment : BaseFragment(), MoreView, MainView.TitledView, MainView.Mai
     override val schoolAndTeachersRes: Pair<String, Drawable?>?
         get() = context?.run { getString(R.string.schoolandteachers_title) to getCompatDrawable((R.drawable.ic_more_schoolandteachers)) }
 
-    override val settingsRes: Pair<String, Drawable?>?
-        get() = context?.run { getString(R.string.settings_title) to getCompatDrawable(R.drawable.ic_more_settings) }
-
-    override val aboutRes: Pair<String, Drawable?>?
-        get() = context?.run { getString(R.string.about_title) to getCompatDrawable(R.drawable.ic_all_about) }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_more, container, false)
-    }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = inflater.inflate(R.layout.fragment_more, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -112,14 +106,6 @@ class MoreFragment : BaseFragment(), MoreView, MainView.TitledView, MainView.Mai
 
     override fun openSchoolAndTeachersView() {
         (activity as? MainActivity)?.pushView(SchoolAndTeachersFragment.newInstance())
-    }
-
-    override fun openSettingsView() {
-        (activity as? MainActivity)?.pushView(SettingsFragment.newInstance())
-    }
-
-    override fun openAboutView() {
-        (activity as? MainActivity)?.pushView(AboutFragment.newInstance())
     }
 
     override fun popView(depth: Int) {

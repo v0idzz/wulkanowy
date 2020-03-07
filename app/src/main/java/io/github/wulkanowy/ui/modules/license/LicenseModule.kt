@@ -1,4 +1,4 @@
-package io.github.wulkanowy.ui.modules.about.license
+package io.github.wulkanowy.ui.modules.license
 
 import android.content.Context
 import com.mikepenz.aboutlibraries.Libs

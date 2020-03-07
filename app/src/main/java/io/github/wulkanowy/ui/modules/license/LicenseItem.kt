@@ -1,32 +1,25 @@
-package io.github.wulkanowy.ui.modules.about.contributor
+package io.github.wulkanowy.ui.modules.license
 
 import android.view.View
-import coil.api.load
-import coil.transform.RoundedCornersTransformation
+import com.mikepenz.aboutlibraries.entity.Library
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
 import io.github.wulkanowy.R
-import io.github.wulkanowy.data.pojos.AppCreator
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_contributor.*
+import kotlinx.android.synthetic.main.item_license.*
 
-class ContributorItem(val creator: AppCreator) :
-    AbstractFlexibleItem<ContributorItem.ViewHolder>() {
+class LicenseItem(val library: Library) : AbstractFlexibleItem<LicenseItem.ViewHolder>() {
 
-    override fun getLayoutRes() = R.layout.item_contributor
+    override fun getLayoutRes() = R.layout.item_license
 
     override fun createViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>) = ViewHolder(view, adapter)
 
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<*>>, holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         with(holder) {
-            creatorItemName.text = creator.displayName
-
-            creatorItemAvatar.load("https://github.com/${creator.githubUsername}.png") {
-                transformations(RoundedCornersTransformation(8f))
-                crossfade(true)
-            }
+            licenseItemName.text = library.libraryName
+            licenseItemSummary.text = library.license?.licenseName
         }
     }
 
@@ -34,14 +27,14 @@ class ContributorItem(val creator: AppCreator) :
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as ContributorItem
+        other as LicenseItem
 
-        if (creator != other.creator) return false
+        if (library != other.library) return false
 
         return true
     }
 
-    override fun hashCode() = creator.hashCode()
+    override fun hashCode() = library.hashCode()
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<*>>) : FlexibleViewHolder(view, adapter),
         LayoutContainer {

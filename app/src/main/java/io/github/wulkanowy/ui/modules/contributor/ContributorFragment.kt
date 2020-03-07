@@ -1,4 +1,4 @@
-package io.github.wulkanowy.ui.modules.about.contributor
+package io.github.wulkanowy.ui.modules.contributor
 
 import android.os.Bundle
 import android.view.LayoutInflater
