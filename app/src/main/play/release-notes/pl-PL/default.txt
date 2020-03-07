@@ -6,5 +6,3 @@ Wersja 0.16.0
 - dodaliśmy język ukraiński i niemiecki
 - dodaliśmy informację na górnym pasku o bieżącym semestrze w widoku ocen
 - ulepszyliśmy przełączanie aplikacji na nowy semestr
-
-Pełna lista zmian: https://github.com/wulkanowy/wulkanowy/releases
