@@ -87,7 +87,7 @@ class TimetableWidgetFactory(
 
     private fun getItemLayout(lesson: Timetable): Int {
         return when {
-            prefRepository.showWholeClassPlan == "small" && !lesson.isStudentPlan -> {
+            prefRepository.isShowWholeClassPlan(lesson.studentId) == "small" && !lesson.isStudentPlan -> {
                 if (savedTheme == 0L) R.layout.item_widget_timetable_small
                 else R.layout.item_widget_timetable_small_dark
             }
@@ -110,7 +110,7 @@ class TimetableWidgetFactory(
                 .flatMap { semesterRepository.getCurrentSemester(it).toMaybe() }
                 .flatMap { timetableRepository.getTimetable(it, date, date).toMaybe() }
                 .map { items -> items.sortedWith(compareBy({ it.number }, { !it.isStudentPlan })) }
-                .map { lessons -> lessons.filter { if (prefRepository.showWholeClassPlan == "no") it.isStudentPlan else true } }
+                .map { lessons -> lessons.filter { if (prefRepository.isShowWholeClassPlan(studentId.toInt()) == "no") it.isStudentPlan else true } }
                 .subscribeOn(schedulers.backgroundThread)
                 .blockingGet(emptyList())
         } catch (e: Exception) {

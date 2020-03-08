@@ -189,11 +189,13 @@ class AttendancePresenter @Inject constructor(
             clear()
             add(studentRepository.getCurrentStudent()
                 .delay(200, MILLISECONDS)
-                .flatMap { semesterRepository.getCurrentSemester(it) }
-                .flatMap { attendanceRepository.getAttendance(it, date, date, forceRefresh) }
-                .map { list ->
-                    if (prefRepository.isShowPresent) list
-                    else list.filter { !it.presence }
+                .flatMap { student ->
+                    semesterRepository.getCurrentSemester(student)
+                        .flatMap { semester -> attendanceRepository.getAttendance(semester, date, date, forceRefresh) }
+                        .map { list ->
+                            if (prefRepository.getShowPresent(student.studentId)) list
+                            else list.filter { item -> !item.presence }
+                        }
                 }
                 .map { items -> items.map { AttendanceItem(it) } }
                 .map { items -> items.sortedBy { it.attendance.number } }

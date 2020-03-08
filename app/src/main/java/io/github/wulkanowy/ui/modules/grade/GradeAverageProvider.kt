@@ -13,20 +13,16 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class GradeAverageProvider @Inject constructor(
-    private val preferencesRepository: PreferencesRepository,
+    private val pref: PreferencesRepository,
     private val gradeRepository: GradeRepository,
     private val gradeSummaryRepository: GradeSummaryRepository
 ) {
 
-    private val plusModifier = preferencesRepository.gradePlusModifier
-
-    private val minusModifier = preferencesRepository.gradeMinusModifier
-
     fun getGradeAverage(student: Student, semesters: List<Semester>, selectedSemesterId: Int, forceRefresh: Boolean): Single<List<Triple<String, Double, String>>> {
-        return when (preferencesRepository.gradeAverageMode) {
+        return when (pref.getGradeAverageMode(student.studentId)) {
             "all_year" -> getAllYearAverage(student, semesters, selectedSemesterId, forceRefresh)
             "only_one_semester" -> getOnlyOneSemesterAverage(student, semesters, selectedSemesterId, forceRefresh)
-            else -> throw IllegalArgumentException("Incorrect grade average mode: ${preferencesRepository.gradeAverageMode} ")
+            else -> throw IllegalArgumentException("Incorrect grade average mode: ${pref.getGradeAverageMode(student.studentId)} ")
         }
     }
 
@@ -43,7 +39,7 @@ class GradeAverageProvider @Inject constructor(
                             .map { secondGrades -> secondGrades + firstGrades }
                     }
                 }.map { grades ->
-                    grades.map { if (student.loginMode == Sdk.Mode.SCRAPPER.name) it.changeModifier(plusModifier, minusModifier) else it }
+                    grades.map { if (student.loginMode == Sdk.Mode.SCRAPPER.name) it.changeModifier(pref.getGradePlusModifier(student.studentId), pref.getGradeMinusModifier(student.studentId)) else it }
                         .groupBy { it.subject }
                         .map { Triple(it.key, it.value.calcAverage(), "") }
                 })
@@ -55,7 +51,7 @@ class GradeAverageProvider @Inject constructor(
         return getAverageFromGradeSummary(selectedSemester, forceRefresh)
             .switchIfEmpty(gradeRepository.getGrades(student, selectedSemester, forceRefresh)
                 .map { grades ->
-                    grades.map { if (student.loginMode == Sdk.Mode.SCRAPPER.name) it.changeModifier(plusModifier, minusModifier) else it }
+                    grades.map { if (student.loginMode == Sdk.Mode.SCRAPPER.name) it.changeModifier(pref.getGradePlusModifier(student.studentId), pref.getGradeMinusModifier(student.studentId)) else it }
                         .groupBy { it.subject }
                         .map { Triple(it.key, it.value.calcAverage(), "") }
                 })
@@ -68,6 +64,6 @@ class GradeAverageProvider @Inject constructor(
                 if (it.any { summary -> summary.average != .0 }) {
                     Maybe.just(it.map { summary -> Triple(summary.subject, summary.average, summary.pointsSum) })
                 } else Maybe.empty()
-            }.filter { !preferencesRepository.gradeAverageForceCalc }
+            }.filter { !pref.getGradeAverageForceCalc(selectedSemester.studentId) }
     }
 }

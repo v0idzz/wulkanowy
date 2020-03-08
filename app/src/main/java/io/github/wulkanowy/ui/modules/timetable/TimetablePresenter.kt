@@ -136,9 +136,11 @@ class TimetablePresenter @Inject constructor(
             add(studentRepository.getCurrentStudent()
                 .flatMap { semesterRepository.getCurrentSemester(it) }
                 .delay(200, MILLISECONDS)
-                .flatMap { timetableRepository.getTimetable(it, currentDate, currentDate, forceRefresh) }
-                .map { createTimetableItems(it) }
-                .map { items -> items.sortedWith(compareBy({ it.lesson.number }, { !it.lesson.isStudentPlan })) }
+                .flatMap { semester ->
+                    timetableRepository.getTimetable(semester, currentDate, currentDate, forceRefresh)
+                        .map { createTimetableItems(it, semester.studentId) }
+                        .map { items -> items.sortedWith(compareBy({ it.lesson.number }, { !it.lesson.isStudentPlan })) }
+                }
                 .subscribeOn(schedulers.backgroundThread)
                 .observeOn(schedulers.mainThread)
                 .doFinally {
@@ -175,10 +177,10 @@ class TimetablePresenter @Inject constructor(
         }
     }
 
-    private fun createTimetableItems(items: List<Timetable>): List<TimetableItem> {
+    private fun createTimetableItems(items: List<Timetable>, studentId: Int): List<TimetableItem> {
         return items
-            .filter { if (prefRepository.showWholeClassPlan == "no") it.isStudentPlan else true }
-            .map { TimetableItem(it, prefRepository.showWholeClassPlan) }
+            .filter { if (prefRepository.isShowWholeClassPlan(studentId) == "no") it.isStudentPlan else true }
+            .map { TimetableItem(it, prefRepository.isShowWholeClassPlan(studentId)) }
     }
 
     private fun reloadView() {
