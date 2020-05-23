@@ -4,6 +4,7 @@ import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import com.github.pwittchen.reactivenetwork.library.rx2.internet.observing.InternetObservingSettings
 import io.github.wulkanowy.data.db.entities.Student
 import io.github.wulkanowy.data.exceptions.NoCurrentStudentException
+import io.github.wulkanowy.utils.getFirebaseToken
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single
@@ -24,7 +25,7 @@ class StudentRepository @Inject constructor(
 
     fun getStudentsApi(pin: String, symbol: String, token: String): Single<List<Student>> {
         return ReactiveNetwork.checkInternetConnectivity(settings).flatMap {
-            if (it) remote.getStudentsMobileApi(token, pin, symbol)
+            if (it) remote.getStudentsMobileApi(token, pin, symbol, getFirebaseToken())
             else Single.error(UnknownHostException("No internet connection"))
         }
     }
@@ -38,7 +39,7 @@ class StudentRepository @Inject constructor(
 
     fun getStudentsHybrid(email: String, password: String, endpoint: String, symbol: String): Single<List<Student>> {
         return ReactiveNetwork.checkInternetConnectivity(settings).flatMap {
-            if (it) remote.getStudentsHybrid(email, password, endpoint, symbol)
+            if (it) remote.getStudentsHybrid(email, password, endpoint, symbol, getFirebaseToken())
             else Single.error(UnknownHostException("No internet connection"))
         }
     }

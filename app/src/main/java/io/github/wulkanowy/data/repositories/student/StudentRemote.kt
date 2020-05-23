@@ -38,15 +38,15 @@ class StudentRemote @Inject constructor(private val sdk: Sdk) {
         }
     }
 
-    fun getStudentsMobileApi(token: String, pin: String, symbol: String): Single<List<Student>> {
-        return sdk.getStudentsFromMobileApi(token, pin, symbol).map { mapStudents(it, "", "") }
+    fun getStudentsMobileApi(token: String, pin: String, symbol: String, firebaseToken: String): Single<List<Student>> {
+        return sdk.getStudentsFromMobileApi(token, pin, symbol, firebaseToken).map { mapStudents(it, "", "") }
     }
 
     fun getStudentsScrapper(email: String, password: String, scrapperBaseUrl: String, symbol: String): Single<List<Student>> {
         return sdk.getStudentsFromScrapper(email, password, scrapperBaseUrl, symbol).map { mapStudents(it, email, password) }
     }
 
-    fun getStudentsHybrid(email: String, password: String, scrapperBaseUrl: String, symbol: String): Single<List<Student>> {
-        return sdk.getStudentsHybrid(email, password, scrapperBaseUrl, symbol).map { mapStudents(it, email, password) }
+    fun getStudentsHybrid(email: String, password: String, scrapperBaseUrl: String, firebaseToken: String, symbol: String): Single<List<Student>> {
+        return sdk.getStudentsHybrid(email, password, scrapperBaseUrl, firebaseToken, symbol).map { mapStudents(it, email, password) }
     }
 }
